@@ -2,8 +2,12 @@
 require 'mars_rover'
 
 describe MarsRover do
-  new_game = MarsRover.new
-  new_game.set_plateau_size('5 5')
+  before do
+    new_game.set_plateau_size('5 5')
+  end
+
+  let(:new_game) { MarsRover.new }
+
   describe '#plateau_size' do
     context 'when a user sets up a new game' do
       new_game = MarsRover.new
