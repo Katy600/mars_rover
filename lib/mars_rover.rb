@@ -2,9 +2,12 @@
 class MarsRover
   attr_reader :plateau_size
 
-  def initialize(size)
-    @plateau_size = size
+  def initialize
     print "Please input your Rovers coordinates"
+  end
+
+  def set_plateau_size(coordinates)
+    @plateau_size = coordinates.split(' ').map(&:to_i)
   end
 
   def set_position(position)
@@ -40,8 +43,6 @@ class MarsRover
   def initial_coordinates(position)
     position.split(" ").shift(2)
   end
-
-  private
 
   def wrong_order?(position)
     ['N', 'E', 'S', 'W'].difference(initial_coordinates(position)).size < 4

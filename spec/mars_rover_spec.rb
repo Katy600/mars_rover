@@ -5,8 +5,9 @@ describe MarsRover do
 
   describe '#plateau_size' do
     context 'when a user sets up a new game' do
-      new_game = MarsRover.new([5,5])
-      it 'expects to initialize with the size of the plateau' do
+      new_game = MarsRover.new
+      it 'can set the size of the plateau' do
+        new_game.set_plateau_size('5 5')
         expect(new_game.plateau_size).to eq([5,5])
       end
     end
@@ -21,7 +22,8 @@ describe MarsRover do
   # end
   #
   describe '#set_position'do
-    new_game = MarsRover.new([5,5])
+    new_game = MarsRover.new
+    new_game.set_plateau_size('5 5')
 
     context 'user sets the position correctly' do
       it 'accepts it' do
