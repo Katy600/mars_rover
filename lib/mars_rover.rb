@@ -8,7 +8,6 @@ class MarsRover
   end
 
   def set_position(position)
-    print("INITIAL COORDINATES", initial_coordinates(position))
     raise_error_message(position)
     initial_coordinates(position).map(&:to_i) + initial_direction(position)
   end
@@ -16,11 +15,7 @@ class MarsRover
   private
 
   def raise_error_message(position)
-    if position.split(" ").size >= 4 || position.split(" ").size <= 2
-      raise StandardError.new 'Invalid: Please enter an x, y and a direction'
-    end
-
-    if ['N', 'E', 'S', 'W'].difference(initial_coordinates(position)).size < 4
+    if wrong_number_of_digits(position) || wrong_order?(position)
       raise StandardError.new 'Invalid: Please enter an x, y and a direction'
     end
   end
@@ -31,5 +26,15 @@ class MarsRover
 
   def initial_coordinates(position)
     position.split(" ").shift(2)
+  end
+
+  private
+
+  def wrong_order?(position)
+    ['N', 'E', 'S', 'W'].difference(initial_coordinates(position)).size < 4
+  end
+
+  def wrong_number_of_digits(position)
+    position.split(" ").size >= 4 || position.split(" ").size <= 2
   end
 end
