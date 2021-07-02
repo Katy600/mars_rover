@@ -9,15 +9,28 @@ class MarsRover
 
   def set_position(position)
     raise_error_message(position)
-    initial_coordinates(position).map(&:to_i) + initial_direction(position)
+    given_coordinates(position) + initial_direction(position)
   end
 
   private
 
   def raise_error_message(position)
-    if wrong_number_of_digits(position) || wrong_order?(position)
-      raise StandardError.new 'Invalid: Please enter an x, y and a direction'
+    case true
+      when wrong_number_of_digits(position) || wrong_order?(position)
+        raise StandardError.new 'Invalid: Please enter an x, y and a direction'
+      when incorrect_letter?(position)
+        raise StandardError.new 'Invalid direction given: Please enter N, E, S or W, precided by two digits'
+      when out_side_plateau?(position)
+        raise StandardError.new 'Invalid: the position must not be greater than the size of the plateau'
     end
+  end
+
+  def given_coordinates(position)
+    initial_coordinates(position).map(&:to_i)
+  end
+
+  def out_side_plateau?(position)
+    @plateau_size.zip(given_coordinates(position)).map { |plateau_size, given_coordinates| true if given_coordinates > plateau_size}.include?(true)
   end
 
   def initial_direction(position)
@@ -32,6 +45,10 @@ class MarsRover
 
   def wrong_order?(position)
     ['N', 'E', 'S', 'W'].difference(initial_coordinates(position)).size < 4
+  end
+
+  def incorrect_letter?(position)
+    ['N', 'E', 'S', 'W'].difference(initial_direction(position)).size == 4
   end
 
   def wrong_number_of_digits(position)

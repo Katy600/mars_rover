@@ -44,6 +44,20 @@ describe MarsRover do
     context 'user puts the coordinates in the wrong order' do
       it 'errors' do
         expect {new_game.set_position('N 2 1')}.to raise_error('Invalid: Please enter an x, y and a direction')
+        expect {new_game.set_position('2 N 1')}.to raise_error('Invalid: Please enter an x, y and a direction')
+      end
+    end
+
+    context 'user puts in incorrect letters' do
+      it 'errors' do
+        expect {new_game.set_position('2 1 F')}.to raise_error('Invalid direction given: Please enter N, E, S or W, precided by two digits')
+      end
+    end
+
+    context 'user enters a position outside of the size of the plateau' do
+      it 'errors' do
+        expect {new_game.set_position('6 1 N')}.to raise_error('Invalid: the position must not be greater than the size of the plateau')
+        expect {new_game.set_position('1 6 N')}.to raise_error('Invalid: the position must not be greater than the size of the plateau')
       end
     end
   end
